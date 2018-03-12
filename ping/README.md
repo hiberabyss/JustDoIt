@@ -1,6 +1,6 @@
 # What's this
 
-File `gopint.go` implement ping command via go.
+File `goping.go` implement ping command via go.
 
 # How to run
 
