@@ -1,7 +1,6 @@
 #include "sm_test.h"
 
-int main()
-{
+int main() {
     key_t key;
     int shmid;
     SHM *p;
