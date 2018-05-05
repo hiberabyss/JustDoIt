@@ -7,7 +7,8 @@
 const int long_size = sizeof(long);
 
 void getdata(pid_t child, long addr, 
-             char *str, int len) {   
+             char *str, int len)
+{   
     char *laddr;
     int i, j;
     union u {
@@ -36,7 +37,8 @@ void getdata(pid_t child, long addr,
 }
 
 void putdata(pid_t child, long addr, 
-             char *str, int len) {   
+             char *str, int len)
+{   
     char *laddr;
     int i, j;
     union u {
@@ -62,26 +64,25 @@ void putdata(pid_t child, long addr,
     }
 }
 
-int main(int argc, char *argv[]) {   
+int main(int argc, char *argv[])
+{   
     pid_t traced_process;
     struct user_regs_struct regs, newregs;
     long ins;
     /* int 0x80, int3 */
     char code[] = {0xcd,0x80,0xcc,0};
     char backup[4];
-
     if(argc != 2) {
         printf("Usage: %s <pid to be traced> ", 
                argv[0], argv[1]);
         exit(1);
     }
-
     traced_process = atoi(argv[1]);
     ptrace(PTRACE_ATTACH, traced_process, 
            NULL, NULL);
     wait(NULL);
     ptrace(PTRACE_GETREGS, traced_process, 
-           NULL, ®s);
+           NULL, ins);
     /* Copy instructions into a backup variable */
     getdata(traced_process, regs.eip, backup, 3);
     /* Put the breakpoint */
@@ -98,7 +99,7 @@ int main(int argc, char *argv[]) {
     /* Setting the eip back to the original 
        instruction to let the process continue */
     ptrace(PTRACE_SETREGS, traced_process, 
-           NULL, ®s);
+           NULL, ins);
     ptrace(PTRACE_DETACH, traced_process, 
            NULL, NULL);
     return 0;
